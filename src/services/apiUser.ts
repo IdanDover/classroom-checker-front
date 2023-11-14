@@ -19,9 +19,8 @@ export async function deleteClassroom(classroomId: string) {
   return axiosInstance.delete(`/classroom/${classroomId}`);
 }
 
-export async function getAllTasks(time?: "noon" | "evening") {
-  const query = `?time=eq;${time}`;
-  return axiosInstance.get(`/task${query}`);
+export async function getAllTasks() {
+  return axiosInstance.get(`/task`);
 }
 
 export async function addTask(task: Task) {

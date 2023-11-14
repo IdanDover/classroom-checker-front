@@ -6,7 +6,7 @@ import { Classroom } from "../../models/classroom";
 import { useParams } from "react-router-dom";
 import EmptyView from "../../components/EmptyView";
 import useUpdateClassroom from "./useUpdateClassroom";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 type Props = { time: "noon" | "evening" };
 
@@ -79,7 +79,10 @@ const FloorsTable = ({ time }: Props) => {
   const queryClient = useQueryClient();
   const { floorNum } = useParams();
 
-  const appTheme = queryClient.getQueryData(["theme"]);
+  const { data: appTheme } = useQuery({
+    queryKey: ["theme"],
+    queryFn: () => queryClient.getQueryData(["theme"]),
+  });
 
   const {
     isLoadingFloors,

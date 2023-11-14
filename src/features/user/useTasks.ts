@@ -1,17 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import { getAllTasks } from "../../services/apiUser";
 
-function useClassrooms(query?: "noon" | "evening") {
+function useTasks() {
   const {
-    isLoading: isLoadingClassrooms,
-    data: classrooms,
+    isLoading: isLoadingTasks,
+    data: tasks,
     error,
   } = useQuery({
-    queryKey: ["tasks", query],
-    queryFn: () => getAllTasks(query),
+    queryKey: ["tasks"],
+    queryFn: () => getAllTasks(),
   });
 
-  return { isLoadingClassrooms, error, classrooms };
+  return { isLoadingTasks, error, tasks };
 }
 
-export default useClassrooms;
+export default useTasks;

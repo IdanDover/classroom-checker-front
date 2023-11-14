@@ -23,8 +23,8 @@ function Dashboard({ route }: Props) {
   }
 
   return (
-    <div className="flex flex-col h-full py-3 space-y-2">
-      <div className="">
+    <div className="flex flex-col h-full my-2">
+      <div>
         <FloorsTable time={route} />
       </div>
       <div className="mt-auto">
