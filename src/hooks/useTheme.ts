@@ -6,7 +6,7 @@ type Theme = "light" | "dark";
 function useTheme() {
   const queryClient = useQueryClient();
   const userTheme = localStorage.getItem("theme") ?? "light";
-  const [theme, setTheme] = useState(JSON.parse(userTheme));
+  const [theme, setTheme] = useState(userTheme);
 
   useEffect(() => {
     theme === "dark"
@@ -21,7 +21,7 @@ function useTheme() {
   }, [theme]);
 
   const handleSwitchTheme = () =>
-    setTheme((prevTheme: Theme) => {
+    setTheme((prevTheme: string) => {
       if (prevTheme === "dark") {
         localStorage.setItem("theme", JSON.stringify("light"));
         return "light";
