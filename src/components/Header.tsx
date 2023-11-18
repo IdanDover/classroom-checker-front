@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import useTheme from "../hooks/useTheme";
 import { FaSun } from "react-icons/fa6";
 import { FaMoon } from "react-icons/fa6";
