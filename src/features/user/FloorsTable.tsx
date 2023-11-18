@@ -1,4 +1,7 @@
-import DataTable, { createTheme } from "react-data-table-component";
+import DataTable, {
+  createTheme,
+  TableStyles,
+} from "react-data-table-component";
 import Loader from "../../components/Loader";
 import ServerError from "../../components/ServerError";
 import useFloors from "./useFloors";
@@ -7,12 +10,9 @@ import { useParams } from "react-router-dom";
 import EmptyView from "../../components/EmptyView";
 import useUpdateClassroom from "./useUpdateClassroom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { FaArrowsRotate } from "react-icons/fa6";
 
 type Props = { time: "noon" | "evening" };
-
-const ExpandedComponent = ({ data }: any) => (
-  <pre>{JSON.stringify(data, null, 2)}</pre>
-);
 
 createTheme(
   "solarized",
@@ -40,7 +40,10 @@ createTheme(
   "dark"
 );
 
-const customStyles = {
+const customStyles: TableStyles = {
+  table: {
+    style: { direction: "rtl" },
+  },
   rows: {
     style: {
       minHeight: "5vh",
@@ -62,20 +65,66 @@ const customStyles = {
       paddingRight: "8px",
     },
   },
+  expanderRow: {
+    style: {
+      minHeight: "5vh",
+      maxHeight: "15vh",
+      minWidth: "50vw",
+      maxWidth: "80vw",
+    },
+  },
+  expanderButton: {
+    style: {
+      backgroundColor: "transparent",
+      borderRadius: "2px",
+      transition: "0.25s",
+      height: "100%",
+      width: "100%",
+      "&:hover:enabled": {
+        cursor: "pointer",
+      },
+      "&:hover:not(:disabled)": {
+        cursor: "pointer",
+      },
+      "&:focus": {
+        outline: "none",
+      },
+      svg: {
+        margin: "auto",
+        transform: "rotate(180deg)",
+      },
+    },
+  },
 };
 
 const columns = [
   {
     name: "כיתה",
-    selector: (classroom: Classroom) => classroom.classNum,
+    selector: (classroom: any) => classroom.classNum,
   },
   {
-    name: "הערות",
-    selector: (classroom: Classroom) => classroom.comment,
+    name: "סט",
+    selector: (classroom: any) => classroom.courseSet,
+  },
+  {
+    name: "החלפה",
+    selector: (classroom: any) =>
+      classroom.switchSet ? (
+        <FaArrowsRotate className={"text-green-500 dark:text-green-600"} />
+      ) : (
+        ""
+      ),
   },
 ];
 
-const FloorsTable = ({ time }: Props) => {
+const ExpandedComponent = ({ data }: any) => (
+  <p className="px-2 overflow-hidden text-xs text-right md:text-base">
+    {data.comment}
+  </p>
+);
+
+function FloorsTable({ time }: Props) {
+  const oldTime = time === "evening" ? "noon" : "old";
   const queryClient = useQueryClient();
   const { floorNum } = useParams();
 
@@ -85,6 +134,12 @@ const FloorsTable = ({ time }: Props) => {
   });
 
   const {
+    isLoadingFloors: isLoadingOlderFloors,
+    floors: oldFloors,
+    error: errorFetchingOldFloors,
+  } = useFloors(oldTime);
+
+  const {
     isLoadingFloors,
     floors,
     error: errorFetchingFloors,
@@ -92,17 +147,28 @@ const FloorsTable = ({ time }: Props) => {
 
   const { update } = useUpdateClassroom();
 
-  if (errorFetchingFloors) {
+  if (errorFetchingFloors || errorFetchingOldFloors) {
     return <ServerError />;
   }
 
-  if (isLoadingFloors) {
+  if (isLoadingFloors || isLoadingOlderFloors) {
     return <Loader variation="area" />;
   }
 
   if (!floors?.data.floorNumbers.includes(floorNum)) {
-    <EmptyView linkTo={"home"} linkText={"חזרה לבית"} />;
+    return <EmptyView linkTo={"home"} linkText={"חזרה לבית"} />;
   }
+
+  const oldFloor = oldFloors?.data.floors[`floor-${floorNum}`];
+  const floor = floors?.data.floors[`floor-${floorNum}`];
+  const data = floor.map((classroom: Classroom, i: number) => {
+    let switchSet = false;
+
+    if (oldFloor !== undefined) {
+      switchSet = classroom.courseSet !== oldFloor[i].courseSet;
+    }
+    return { ...classroom, switchSet };
+  });
 
   const handleChange = ({ selectedRows }: any) => {
     if (selectedRows.length === 0) {
@@ -120,7 +186,7 @@ const FloorsTable = ({ time }: Props) => {
   return (
     <DataTable
       columns={columns}
-      data={floors?.data.floors[`floor-${floorNum}`]}
+      data={data}
       expandableRows
       selectableRows
       selectableRowDisabled={(classroom) => classroom.completed}
@@ -130,6 +196,6 @@ const FloorsTable = ({ time }: Props) => {
       theme={appTheme === "dark" ? "solarized" : ""}
     />
   );
-};
+}
 
 export default FloorsTable;

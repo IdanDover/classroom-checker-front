@@ -8,7 +8,7 @@ function Header() {
 
   return (
     <header>
-      <div className="flex items-center justify-between px-3 py-3 space-x-4 font-semibold md:justify-end bg-rose-500 dark:bg-rose-600 ">
+      <div className="flex items-center justify-between px-3 py-3 space-x-4 font-semibold bg-red-500 md:justify-end dark:bg-red-600 ">
         <Button onClick={onClick} disabled={false} type={"round"}>
           {theme === "light" ? <FaSun /> : <FaMoon />}
         </Button>

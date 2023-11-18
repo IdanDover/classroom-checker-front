@@ -5,6 +5,7 @@ import FullPageLoader from "../components/FullPageLoader";
 import AppLayout from "../components/AppLayout";
 import Home from "../pages/Home";
 import Page404 from "../pages/page404";
+import FilesForm from "../features/manager/FilesForm";
 
 const Dashboard = lazy(() => import("../features/user/Dashboard"));
 
@@ -27,6 +28,7 @@ function AppRouter() {
               element={<Dashboard route={"evening"} />}
             />
             <Route path="tasks" element={<Dashboard route={"tasks"} />} />
+            <Route path="upload" element={<FilesForm />} />
             <Route path="*" element={<Page404 />} />
           </Route>
         </Routes>

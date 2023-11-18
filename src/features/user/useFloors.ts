@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getFloors } from "../../services/apiUser";
 
-function useFloors(query?: "noon" | "evening") {
+function useFloors(query?: "old" | "noon" | "evening") {
   const {
     isLoading: isLoadingFloors,
     data: floors,

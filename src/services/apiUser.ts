@@ -2,7 +2,7 @@ import axiosInstance from "../libs/Axios";
 import { Task } from "../models/Task";
 import { Classroom } from "../models/classroom";
 
-export async function getAllClassrooms(time?: "noon" | "evening") {
+export async function getAllClassrooms(time?: "old" | "noon" | "evening") {
   const query = `?time=eq;${time}`;
   return axiosInstance.get(`/classroom${query}`);
 }
@@ -35,7 +35,7 @@ export async function deleteTask(TaskId: string) {
   return axiosInstance.delete(`/task/${TaskId}`);
 }
 
-export async function getFloors(time?: "noon" | "evening") {
+export async function getFloors(time?: "old" | "noon" | "evening") {
   const query = `?time=eq;${time}&sort=classNum`;
   return axiosInstance.get(`/floors${query}`);
 }

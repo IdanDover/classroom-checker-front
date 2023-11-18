@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:8080/api/v1",
+  baseURL: import.meta.env.VITE_HOST_URL,
   timeout: 1000,
 });
 
@@ -18,12 +18,13 @@ axiosInstance.interceptors.response.use(
   (response) => response.data,
   (error) => {
     if (error.response) {
-      console.log(error.response);
-
-      throw new Error(error.response.data.description);
+      console.error(error.response.data.message);
+      throw new Error(error.response.data.message);
     }
     if (error.request) {
-      throw new Error("No response was received from the server.");
+      throw new Error(
+        "We are experiencing difficulties with our server. Please try again in a few minutes"
+      );
     }
     throw new Error("Error making the request.");
   }

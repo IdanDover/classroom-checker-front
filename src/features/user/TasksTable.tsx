@@ -1,4 +1,7 @@
-import DataTable, { createTheme } from "react-data-table-component";
+import DataTable, {
+  TableStyles,
+  createTheme,
+} from "react-data-table-component";
 import Loader from "../../components/Loader";
 import ServerError from "../../components/ServerError";
 import EmptyView from "../../components/EmptyView";
@@ -8,10 +11,6 @@ import { Task } from "../../models/Task";
 import useUpdateTask from "./useUpdateTask";
 
 type Props = {};
-
-const ExpandedComponent = ({ data }: any) => (
-  <pre>{JSON.stringify(data, null, 2)}</pre>
-);
 
 createTheme(
   "solarized",
@@ -39,7 +38,10 @@ createTheme(
   "dark"
 );
 
-const customStyles = {
+const customStyles: TableStyles = {
+  table: {
+    style: { direction: "rtl" },
+  },
   rows: {
     style: {
       minHeight: "5vh",
@@ -61,6 +63,36 @@ const customStyles = {
       paddingRight: "8px",
     },
   },
+  expanderRow: {
+    style: {
+      minHeight: "5vh",
+      maxHeight: "15vh",
+      minWidth: "50vw",
+      maxWidth: "80vw",
+    },
+  },
+  expanderButton: {
+    style: {
+      backgroundColor: "transparent",
+      borderRadius: "2px",
+      transition: "0.25s",
+      height: "100%",
+      width: "100%",
+      "&:hover:enabled": {
+        cursor: "pointer",
+      },
+      "&:hover:not(:disabled)": {
+        cursor: "pointer",
+      },
+      "&:focus": {
+        outline: "none",
+      },
+      svg: {
+        margin: "auto",
+        transform: "rotate(180deg)",
+      },
+    },
+  },
 };
 
 const columns = [
@@ -69,12 +101,18 @@ const columns = [
     selector: (task: Task) => task.taskNum,
   },
   {
-    name: "משימה",
-    selector: (task: Task) => task.description,
+    name: "סט",
+    selector: (task: Task) => task.courseSet,
   },
 ];
 
-const TasksTable = ({}: Props) => {
+const ExpandedComponent = ({ data }: any) => (
+  <p className="px-2 overflow-hidden text-xs text-right md:text-base">
+    {data.description}
+  </p>
+);
+
+function TasksTable({}: Props) {
   const { update } = useUpdateTask();
   const queryClient = useQueryClient();
 
@@ -123,6 +161,6 @@ const TasksTable = ({}: Props) => {
       theme={appTheme === "dark" ? "solarized" : ""}
     />
   );
-};
+}
 
 export default TasksTable;
