@@ -8,6 +8,7 @@ function useUploadFiles() {
   const { mutate: upload, isPending } = useMutation({
     mutationFn: uploadFiles,
     onSuccess: () => {
+      toaster.success("כל הכבוד אורן, חסכת דפים");
       queryClient.invalidateQueries({
         queryKey: ["floors", "noon"],
       });

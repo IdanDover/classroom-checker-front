@@ -155,12 +155,13 @@ function FloorsTable({ time }: Props) {
     return <Loader variation="area" />;
   }
 
-  if (!floors?.data.floorNumbers.includes(floorNum)) {
+  const oldFloor = oldFloors?.data.floors[`floor-${floorNum}`];
+  const floor = floors?.data.floors[`floor-${floorNum}`];
+
+  if (!floor) {
     return <EmptyView linkTo={"home"} linkText={"חזרה לבית"} />;
   }
 
-  const oldFloor = oldFloors?.data.floors[`floor-${floorNum}`];
-  const floor = floors?.data.floors[`floor-${floorNum}`];
   const data = floor.map((classroom: Classroom, i: number) => {
     let switchSet = false;
 
