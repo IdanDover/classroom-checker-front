@@ -10,6 +10,8 @@ type Props = {
 function Dashboard({ route }: Props) {
   const { floorNum } = useParams();
 
+  const headline = route === "noon" ? "צהריים" : "ערב";
+
   if (route === "tasks") {
     return <TasksTable />;
   }
@@ -24,6 +26,9 @@ function Dashboard({ route }: Props) {
 
   return (
     <div className="flex flex-col h-full my-2">
+      <h2 className="px-3 py-1 font-serif text-center text-gray-700 underline text-md md:text-3xl md:py-3 xl:text-4xl xl:py-5 dark:text-gray-200">
+        {headline}
+      </h2>
       <div>
         <FloorsTable time={route} />
       </div>

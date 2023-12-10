@@ -4,9 +4,9 @@ import Footer from "./Footer";
 
 function AppLayout() {
   return (
-    <div className="grid w-screen h-screen grid-rows-[auto_1fr_auto] mx-auto max-w-sm md:max-w-6xl bg-gray-100 dark:bg-gray-800 ">
+    <div className="grid w-screen h-screen grid-rows-[auto_1fr_auto] mx-auto max-w-sm md:max-w-full bg-gray-100 dark:bg-gray-800 ">
       <Header />
-      <main className="max-w-sm mx-auto overflow-scroll md:max-w-4xl">
+      <main className="max-w-sm mx-auto overflow-scroll md:max-w-4xl lg:max-w-6xl">
         <Outlet />
       </main>
       <Footer />

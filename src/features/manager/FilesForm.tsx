@@ -18,7 +18,7 @@ function FilesForm() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-4">
           <label
-            className="block mb-2 text-sm font-bold text-gray-700"
+            className="block mb-2 text-sm font-bold text-right text-gray-700 dark:text-gray-100"
             htmlFor="noon"
           >
             צהריים
@@ -32,7 +32,7 @@ function FilesForm() {
 
         <div className="mb-4">
           <label
-            className="block mb-2 text-sm font-bold text-gray-700"
+            className="block mb-2 text-sm font-bold text-right text-gray-700 dark:text-gray-100"
             htmlFor="evening"
           >
             ערב

@@ -1,12 +1,14 @@
 //@ts-nocheck
 
 import useTheme from "../hooks/useTheme";
+import { useLocation } from "react-router-dom";
 import { FaSun } from "react-icons/fa6";
 import { FaMoon } from "react-icons/fa6";
 import Button from "./Button";
 
 function Header() {
   const [theme, onClick] = useTheme();
+  const location = useLocation();
 
   return (
     <header>
@@ -14,14 +16,21 @@ function Header() {
         <Button onClick={onClick} disabled={false} type={"round"}>
           {theme === "light" ? <FaSun /> : <FaMoon />}
         </Button>
-        <Button to={"tasks"} disabled={false} type={"primary"}>
+        <Button
+          to={"tasks"}
+          disabled={false}
+          type={`${
+            location.pathname.includes("tasks") ? "primary" : "secondary"
+          }`}
+        >
           <p className="text-xs text-stone-700">משימות</p>
         </Button>
-        <Button to={"evening"} disabled={false} type={"primary"}>
-          <p className="text-xs text-stone-700">ערב</p>
-        </Button>
-        <Button to={"noon"} disabled={false} type={"primary"}>
-          <p className="text-xs text-stone-700">צהריים</p>
+        <Button
+          to={"home"}
+          disabled={false}
+          type={location.pathname.includes("tasks") ? "secondary" : "primary"}
+        >
+          <p className="text-xs text-stone-700">כיתות</p>
         </Button>
       </div>
     </header>
