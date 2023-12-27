@@ -4,7 +4,7 @@ import FullPageLoader from "../components/FullPageLoader";
 
 import AppLayout from "../components/AppLayout";
 import Home from "../pages/Home";
-import Page404 from "../pages/page404";
+import Page404 from "../pages/Page404";
 import FilesForm from "../features/manager/FilesForm";
 
 const Dashboard = lazy(() => import("../features/user/Dashboard"));
